@@ -1,0 +1,11 @@
+D:\Data\Tailieu\Projects\C#\ClamAV_Engine\ClamAV_Engine\bin\Debug\ClamAV_Engine.exe.config
+D:\Data\Tailieu\Projects\C#\ClamAV_Engine\ClamAV_Engine\bin\Debug\ClamAV_Engine.exe
+D:\Data\Tailieu\Projects\C#\ClamAV_Engine\ClamAV_Engine\bin\Debug\ClamAV_Engine.pdb
+D:\Data\Tailieu\Projects\C#\ClamAV_Engine\ClamAV_Engine\obj\Debug\ClamAV_Engine.csproj.AssemblyReference.cache
+D:\Data\Tailieu\Projects\C#\ClamAV_Engine\ClamAV_Engine\obj\Debug\ClamAV_Engine.Form1.resources
+D:\Data\Tailieu\Projects\C#\ClamAV_Engine\ClamAV_Engine\obj\Debug\ClamAV_Engine.Properties.Resources.resources
+D:\Data\Tailieu\Projects\C#\ClamAV_Engine\ClamAV_Engine\obj\Debug\ClamAV_Engine.csproj.GenerateResource.cache
+D:\Data\Tailieu\Projects\C#\ClamAV_Engine\ClamAV_Engine\obj\Debug\ClamAV_Engine.csproj.CoreCompileInputs.cache
+D:\Data\Tailieu\Projects\C#\ClamAV_Engine\ClamAV_Engine\obj\Debug\ClamAV_Engine.exe
+D:\Data\Tailieu\Projects\C#\ClamAV_Engine\ClamAV_Engine\obj\Debug\ClamAV_Engine.pdb
+D:\Data\Tailieu\Projects\C#\ClamAV_Engine\ClamAV_Engine\obj\Debug\ClamAV_Engine.Form2.resources

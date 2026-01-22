@@ -1,0 +1,25 @@
+/.vscode
+/debug.log
+
+# ClamAV Database files (except COPYING)
+/bin/Debug/clamdb/daily/*
+/bin/Debug/clamdb/main/*
+/bin/Debug/clamdb/bytecode/*
+!/bin/Debug/clamdb/daily/COPYING
+!/bin/Debug/clamdb/main/COPYING
+!/bin/Debug/clamdb/bytecode/COPYING
+
+# Build and debug outputs
+/bin/
+/obj/
+*.pdb
+*.log
+
+# Visual Studio
+.vs/
+*.user
+*.sln.docstates
+
+# NuGet
+*.nupkg
+*.snupkg
