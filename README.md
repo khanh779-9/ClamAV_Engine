@@ -11,6 +11,7 @@ A Windows desktop application built with C# and Windows Forms that implements Cl
 - [Usage](#usage)
 - [Supported Signature Formats](#supported-signature-formats)
 - [Project Structure](#project-structure)
+- [Screenshots](#screenshots)
 
 ## Features
 
@@ -277,6 +278,11 @@ ClamAV_Engine/
 ├── ClamAV_Engine.csproj        # Project file
 └── Properties/                  # Assembly information
 ```
+
+## Screenshots
+
+![Main window - database loaded](Screenshot/main_1.png)
+![Main window - scan result](Screenshot/main_2.png)
 
 ## Troubleshooting
 
