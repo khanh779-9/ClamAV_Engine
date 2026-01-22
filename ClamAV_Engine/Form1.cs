@@ -24,7 +24,7 @@ namespace ClamAV_Engine
             InitializeComponent();
             _clamEng = new ClamAVEngine();
 
-            // Gán logger để engine có thể báo tiến trình (đặc biệt khi dò LDB)
+            // Assign logger so the engine can report progress (especially when scanning LDB)
             _clamEng.Logger = AddLog;
 
             // Add event handlers for ListView
@@ -50,7 +50,7 @@ namespace ClamAV_Engine
             ClamAVSignature sig = FindSignatureByName(sigName);
             if (sig == null)
             {
-                MessageBox.Show("Không tìm thấy signature!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Signature not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -145,7 +145,7 @@ namespace ClamAV_Engine
             sb.AppendLine("======================================");
 
             // Show in message box
-            MessageBox.Show(sb.ToString(), "Chi tiết Signature", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(sb.ToString(), "Signature Details", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private string FormatPropertyValue(string key, object value)
@@ -181,22 +181,22 @@ namespace ClamAV_Engine
         {
             if (string.IsNullOrWhiteSpace(txtDbPath.Text))
             {
-                MessageBox.Show("Vui lòng chọn thư mục database!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a database folder!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (!Directory.Exists(txtDbPath.Text))
             {
-                MessageBox.Show("Thư mục không tồn tại!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Folder does not exist!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             try
             {
                 btnLoadDb.Enabled = false;
-                lblDbStatus.Text = "Đang tải database...";
+                lblDbStatus.Text = "Loading database...";
                 lblDbStatus.ForeColor = Color.Blue;
-                AddLog("Bắt đầu tải database từ: " + txtDbPath.Text);
+                AddLog("Starting to load database from: " + txtDbPath.Text);
 
                 // Load database using Engine API
                 bool loaded = _clamEng.LoadDatabaseFolder(txtDbPath.Text);
@@ -204,8 +204,8 @@ namespace ClamAV_Engine
                 if (loaded)
                 {
                     lblDbStatus.ForeColor = Color.Green;
-                    lblDbStatus.Text = $"Database đã tải: {_clamEng.TotalSignatures:N0} signatures";
-                    AddLog($"Database đã tải: {_clamEng.TotalSignatures:N0} signatures");
+                    lblDbStatus.Text = $"Database loaded: {_clamEng.TotalSignatures:N0} signatures";
+                    AddLog($"Database loaded: {_clamEng.TotalSignatures:N0} signatures");
                     
                     // Load signatures into ListView
                     LoadSignaturesToListView();
@@ -213,16 +213,16 @@ namespace ClamAV_Engine
                 else
                 {
                     lblDbStatus.ForeColor = Color.Red;
-                    lblDbStatus.Text = "Không tìm thấy database";
-                    AddLog("Lỗi: Không tìm thấy file database");
+                    lblDbStatus.Text = "Database not found";
+                    AddLog("Error: Database file not found");
                 }
             }
             catch (Exception ex)
             {
-                lblDbStatus.Text = "Lỗi khi tải database";
+                lblDbStatus.Text = "Error loading database";
                 lblDbStatus.ForeColor = Color.Red;
-                AddLog("LỖI: " + ex.Message);
-                MessageBox.Show("Lỗi khi tải database: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AddLog("ERROR: " + ex.Message);
+                MessageBox.Show("Error loading database: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -237,7 +237,7 @@ namespace ClamAV_Engine
 
             try
             {
-                AddLog("Đang tải signatures vào ListView...");
+                AddLog("Loading signatures into ListView...");
                 int count = 0;
                 int limit = 999999999;
 
@@ -291,16 +291,16 @@ namespace ClamAV_Engine
                 count += AddSignaturesToListView(_clamEng.MainDatabase.CdbSignatures, "Main", limit - count);
 
             Finish:
-                AddLog($"Đã tải {count:N0} signatures vào ListView (giới hạn: {limit:N0})");
+                AddLog($"Loaded {count:N0} signatures into ListView (limit: {limit:N0})");
                 
                 if (_clamEng.TotalSignatures > limit)
                 {
-                    AddLog($"Chú ý: Chỉ hiển thị {limit:N0}/{_clamEng.TotalSignatures:N0} signatures để tránh UI lag");
+                    AddLog($"Note: Only displaying {limit:N0}/{_clamEng.TotalSignatures:N0} signatures to avoid UI lag");
                 }
             }
             catch (Exception ex)
             {
-                AddLog($"Lỗi khi load signatures: {ex.Message}");
+                AddLog($"Error loading signatures: {ex.Message}");
             }
             finally
             {
@@ -501,7 +501,7 @@ namespace ClamAV_Engine
             using (var dialog = new OpenFileDialog())
             {
                 dialog.Filter = "All Files (*.*)|*.*";
-                dialog.Title = "Chọn file cần quét";
+                dialog.Title = "Choose file to scan";
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     txtScanPath.Text = dialog.FileName;
@@ -513,7 +513,7 @@ namespace ClamAV_Engine
         {
             using (var dialog = new FolderBrowserDialog())
             {
-                dialog.Description = "Chọn thư mục cần quét";
+                dialog.Description = "Choose folder to scan";
                 if (dialog.ShowDialog() == DialogResult.OK)
                 {
                     txtScanPath.Text = dialog.SelectedPath;
@@ -525,19 +525,19 @@ namespace ClamAV_Engine
         {
             if (string.IsNullOrWhiteSpace(txtScanPath.Text))
             {
-                MessageBox.Show("Vui lòng chọn file/thư mục cần quét!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select a file or folder to scan!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (!_clamEng.IsDatabaseLoaded)
             {
-                MessageBox.Show("Vui lòng tải database trước!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please load the database first!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
             if (isScanning)
             {
-                MessageBox.Show("Đang quét, vui lòng đợi!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Scanning in progress, please wait!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -562,7 +562,7 @@ namespace ClamAV_Engine
                 if (File.Exists(path))
                 {
                     // Scan single file
-                    scanWorker.ReportProgress(0, $"Quét file: {path}");
+                    scanWorker.ReportProgress(0, $"Scanning file: {path}");
                     var result = _clamEng.ScanFile(path);
                     // Report result so ListView luôn nhận được kết quả
                     scanWorker.ReportProgress(100, result);
@@ -571,13 +571,13 @@ namespace ClamAV_Engine
                 else if (Directory.Exists(path))
                 {
                     // Scan folder
-                    scanWorker.ReportProgress(0, $"Quét thư mục: {path}");
+                    scanWorker.ReportProgress(0, $"Scanning folder: {path}");
                     var results = ScanFolderWithWorker(path);
                     e.Result = results;
                 }
                 else
                 {
-                    e.Result = new Exception("File/thư mục không tồn tại!");
+                    e.Result = new Exception("File/folder does not exist!");
                 }
             }
             catch (Exception ex)
@@ -600,7 +600,7 @@ namespace ClamAV_Engine
             progressBar.Value = e.ProgressPercentage;
             if (e.ProgressPercentage > 0)
             {
-                lblProgress.Text = $"Đang quét: {e.ProgressPercentage}%";
+                lblProgress.Text = $"Scanning: {e.ProgressPercentage}%";
             }
         }
 
@@ -613,13 +613,13 @@ namespace ClamAV_Engine
 
             if (e.Result is Exception ex)
             {
-                AddLog($"LỖI: {ex.Message}");
-                MessageBox.Show($"Lỗi khi quét: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AddLog($"ERROR: {ex.Message}");
+                MessageBox.Show($"Error during scan: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else if (e.Result is List<ClamAVResult> results)
             {
-                AddLog("Quét hoàn tất!");
-                MessageBox.Show("Quét hoàn tất!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                AddLog("Scan completed!");
+                MessageBox.Show("Scan completed!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -646,7 +646,7 @@ namespace ClamAV_Engine
                 }
                 catch (Exception ex)
                 {
-                    scanWorker.ReportProgress(0, $"Lỗi khi quét {file}: {ex.Message}");
+                    scanWorker.ReportProgress(0, $"Error scanning {file}: {ex.Message}");
                 }
             }
 
@@ -665,19 +665,19 @@ namespace ClamAV_Engine
             switch (result.Status)
             {
                 case ScanStatus.Clean:
-                    status = "Sạch";
+                    status = "Clean";
                     statusColor = Color.Green;
                     break;
                 case ScanStatus.Infected:
-                    status = "Nhiễm virus";
+                    status = "Infected";
                     statusColor = Color.Red;
                     break;
                 case ScanStatus.Whitelisted:
-                    status = "Whitelist";
+                    status = "Whitelisted";
                     statusColor = Color.Blue;
                     break;
                 case ScanStatus.Error:
-                    status = "Lỗi";
+                    status = "Error";
                     statusColor = Color.Orange;
                     break;
             }

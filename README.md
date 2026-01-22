@@ -324,7 +324,9 @@ msbuild ClamAV_Engine.csproj /p:Configuration=Release /p:Platform="Any CPU"
 
 ## License
 
-This project implements ClamAV signatures which are under the **GNU General Public License (GPL)**.
+- Project source code: Released under the [MIT License](LICENSE).
+- ClamAV signature databases (main/daily/bytecode) are **not included** in this repository. When you download and use official ClamAV signatures, you must comply with the ClamAV GPL licensing terms and any accompanying COPYING/README files.
+- Trademarks: ClamAV is a trademark of its respective owner; this project is an independent implementation for educational/use-case purposes.
 
 ## Attribution
 

@@ -81,7 +81,7 @@
             this.groupBox1.Size = new System.Drawing.Size(1160, 80);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Cơ sở dữ liệu Virus (ClamAV Database)";
+            this.groupBox1.Text = "ClamAV - Virus Database";
             // 
             // lblDbStatus
             // 
@@ -91,7 +91,7 @@
             this.lblDbStatus.Name = "lblDbStatus";
             this.lblDbStatus.Size = new System.Drawing.Size(93, 13);
             this.lblDbStatus.TabIndex = 4;
-            this.lblDbStatus.Text = "Chưa tải database";
+            this.lblDbStatus.Text = "Database not loaded";
             // 
             // btnLoadDb
             // 
@@ -99,7 +99,7 @@
             this.btnLoadDb.Name = "btnLoadDb";
             this.btnLoadDb.Size = new System.Drawing.Size(85, 23);
             this.btnLoadDb.TabIndex = 3;
-            this.btnLoadDb.Text = "Tải Database";
+            this.btnLoadDb.Text = "Load Database";
             this.btnLoadDb.UseVisualStyleBackColor = true;
             this.btnLoadDb.Click += new System.EventHandler(this.btnLoadDb_Click);
             // 
@@ -109,7 +109,7 @@
             this.btnBrowseDb.Name = "btnBrowseDb";
             this.btnBrowseDb.Size = new System.Drawing.Size(85, 23);
             this.btnBrowseDb.TabIndex = 2;
-            this.btnBrowseDb.Text = "Chọn thư mục";
+            this.btnBrowseDb.Text = "Browse Folder";
             this.btnBrowseDb.UseVisualStyleBackColor = true;
             this.btnBrowseDb.Click += new System.EventHandler(this.btnBrowseDb_Click);
             // 
@@ -128,7 +128,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(81, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Đường dẫn DB:";
+            this.label1.Text = "Database Path:";
             // 
             // groupBox2
             // 
@@ -144,7 +144,7 @@
             this.groupBox2.Size = new System.Drawing.Size(1160, 100);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Quét File/Thư mục";
+            this.groupBox2.Text = "Scan File/Folder";
             // 
             // lblProgress
             // 
@@ -168,7 +168,7 @@
             this.btnScan.Name = "btnScan";
             this.btnScan.Size = new System.Drawing.Size(175, 30);
             this.btnScan.TabIndex = 6;
-            this.btnScan.Text = "Bắt đầu quét";
+            this.btnScan.Text = "Start Scanning";
             this.btnScan.UseVisualStyleBackColor = true;
             this.btnScan.Click += new System.EventHandler(this.btnScan_Click);
             // 
@@ -178,7 +178,7 @@
             this.btnBrowseFolder.Name = "btnBrowseFolder";
             this.btnBrowseFolder.Size = new System.Drawing.Size(85, 23);
             this.btnBrowseFolder.TabIndex = 5;
-            this.btnBrowseFolder.Text = "Chọn thư mục";
+            this.btnBrowseFolder.Text = "Browse Folder";
             this.btnBrowseFolder.UseVisualStyleBackColor = true;
             this.btnBrowseFolder.Click += new System.EventHandler(this.btnBrowseFolder_Click);
             // 
@@ -188,7 +188,7 @@
             this.btnBrowseFile.Name = "btnBrowseFile";
             this.btnBrowseFile.Size = new System.Drawing.Size(85, 23);
             this.btnBrowseFile.TabIndex = 4;
-            this.btnBrowseFile.Text = "Chọn file";
+            this.btnBrowseFile.Text = "Browse File";
             this.btnBrowseFile.UseVisualStyleBackColor = true;
             this.btnBrowseFile.Click += new System.EventHandler(this.btnBrowseFile_Click);
             // 
@@ -206,7 +206,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(73, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "File/Thư mục:";
+            this.label2.Text = "File/Folder:";
             // 
             // tabControl1
             // 
@@ -226,7 +226,7 @@
             this.tabPageResults.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageResults.Size = new System.Drawing.Size(1152, 254);
             this.tabPageResults.TabIndex = 0;
-            this.tabPageResults.Text = "Kết quả quét";
+            this.tabPageResults.Text = "Scan Results";
             this.tabPageResults.UseVisualStyleBackColor = true;
             // 
             // lvResults
@@ -253,12 +253,12 @@
             // 
             // colStatus
             // 
-            this.colStatus.Text = "Trạng thái";
+            this.colStatus.Text = "Status";
             this.colStatus.Width = 150;
             // 
             // colThreat
             // 
-            this.colThreat.Text = "Mối đe dọa";
+            this.colThreat.Text = "Threat";
             this.colThreat.Width = 400;
             // 
             // tabPageSignatures
@@ -269,7 +269,7 @@
             this.tabPageSignatures.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageSignatures.Size = new System.Drawing.Size(1152, 254);
             this.tabPageSignatures.TabIndex = 1;
-            this.tabPageSignatures.Text = "Signatures đã tải";
+            this.tabPageSignatures.Text = "Loaded Signatures";
             this.tabPageSignatures.UseVisualStyleBackColor = true;
             // 
             // lvSignatures
@@ -351,7 +351,7 @@
             this.btnClearLog.Name = "btnClearLog";
             this.btnClearLog.Size = new System.Drawing.Size(85, 23);
             this.btnClearLog.TabIndex = 1;
-            this.btnClearLog.Text = "Xóa Log";
+            this.btnClearLog.Text = "Clear Log";
             this.btnClearLog.UseVisualStyleBackColor = true;
             this.btnClearLog.Click += new System.EventHandler(this.btnClearLog_Click);
             // 

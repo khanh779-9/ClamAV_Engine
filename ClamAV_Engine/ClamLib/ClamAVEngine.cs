@@ -17,8 +17,7 @@ namespace ClamAV_Engine.ClamLib
         public int TotalSignatures => DailyDatabase.TotalSignatures + MainDatabase.TotalSignatures;
 
         public bool IsDatabaseLoaded => TotalSignatures > 0;
-
-        // Tùy chọn callback log để Form1 gán vào (vd: AddLog)
+ 
         public Action<string> Logger { get; set; }
 
         public bool LoadDatabaseFolder(string folderPath)
@@ -142,13 +141,13 @@ namespace ClamAV_Engine.ClamLib
             if (!File.Exists(filePath))
             {
                 result.Status = ScanStatus.Error;
-                result.ErrorMessage = "File không tồn tại";
+                result.ErrorMessage = "File does not exist";
                 return result;
             }
             if (!IsDatabaseLoaded)
             {
                 result.Status = ScanStatus.Error;
-                result.ErrorMessage = "Chưa tải database";
+                result.ErrorMessage = "Database not loaded";
                 return result;
             }
 
@@ -156,14 +155,14 @@ namespace ClamAV_Engine.ClamLib
 
             try
             {
-                Logger?.Invoke($"[SCAN] Bắt đầu quét file: {filePath}");
+                Logger?.Invoke($"[SCAN] Starting scan of file: {filePath}");
 
                 var fileInfo = new FileInfo(filePath);
                 result.FileSize = fileInfo.Length;
 
                 byte[] data = File.ReadAllBytes(filePath);
 
-                // Tính MD5 và SHA256
+                // Calculate MD5 and SHA256
                 using (var md5 = MD5.Create())
                 using (var sha256 = SHA256.Create())
                 {
@@ -176,32 +175,32 @@ namespace ClamAV_Engine.ClamLib
 
                 TargetType fileTarget = TargetTypeHelper.DetectTarget(data);
 
-                // 1. Kiểm tra whitelist (FP) trước
+                // 1. Check whitelist (FP) first
                 var fpSig = FindHashMatch(result.MD5, result.FileSize, fileTarget,
                     DailyDatabase.FpSignatures,
                     MainDatabase.FpSignatures);
 
-                Logger?.Invoke($"[SCAN] Kiểm tra whitelist (FP)... ");
+                Logger?.Invoke($"[SCAN] Checking whitelist (FP)... ");
 
                 if (fpSig != null)
                 {
-                    Logger?.Invoke($"[FP] Whitelisted bởi chữ ký: {fpSig.Name} - [{fpSig.Target}]");
+                    Logger?.Invoke($"[FP] Whitelisted by signature: {fpSig.Name} - [{fpSig.Target}]");
                     result.Status = ScanStatus.Whitelisted;
                     result.VirusName = fpSig.Name;
                     result.DetectionType = fpSig.Type;
                     return result;
                 }
 
-                Logger?.Invoke($"[SCAN] Tiếp tục quét...");
+                Logger?.Invoke($"[SCAN] Continuing scan...");
 
-                // 2. Kiểm tra hash-based (HDB/HSB)
+                // 2. Check hash-based (HDB/HSB)
                 var hdbSig = FindHashMatch(result.MD5, result.FileSize, fileTarget,
                     DailyDatabase.HdbSignatures,
                     DailyDatabase.HsbSignatures,
                     MainDatabase.HdbSignatures,
                     MainDatabase.HsbSignatures);
 
-                Logger?.Invoke($"[SCAN] Kiểm tra chữ ký hash-based (HDB/HSB)...");
+                Logger?.Invoke($"[SCAN] Checking hash-based signatures (HDB/HSB)...");
 
                 if (hdbSig != null)
                 {
@@ -212,9 +211,9 @@ namespace ClamAV_Engine.ClamLib
                     return result;
                 }
 
-                Logger?.Invoke($"[NDB] Kiểm tra chữ ký body-based (NDB)...");
+                Logger?.Invoke($"[NDB] Checking body-based signatures (NDB)...");
 
-                // 3. Kiểm tra NDB (hex/body signatures)
+                // 3. Check NDB (hex/body signatures)
                 var ndbSig = FindNdbMatch(data, fileTarget,
                     DailyDatabase.NdbSignatures,
                     MainDatabase.NdbSignatures);
@@ -228,14 +227,14 @@ namespace ClamAV_Engine.ClamLib
                     return result;
                 }
 
-                Logger?.Invoke($"[LDB] Kiểm tra chữ ký logic (LDB/LDU)...");
+                Logger?.Invoke($"[LDB] Checking logical signatures (LDB/LDU)...");
 
                 //var arrLdbSigs = DailyDatabase.LdbSignatures.Values.Concat(DailyDatabase.LduSignatures.Values)
                 //    .Concat(MainDatabase.LdbSignatures.Values)
                 //    .Concat(MainDatabase.LduSignatures.Values)
                 //    .ToArray();
 
-                // 4. Kiểm tra LDB/LDU (logical signatures)
+                // 4. Check LDB/LDU (logical signatures)
                 var ldbSig = FindLdbMatch(data,
                     fileTarget,
                      DailyDatabase.LdbSignatures,
@@ -254,14 +253,14 @@ namespace ClamAV_Engine.ClamLib
                 }
 
                 result.Status = ScanStatus.Clean;
-                Logger?.Invoke("[SCAN] File sạch (không khớp chữ ký nào)");
+                Logger?.Invoke("[SCAN] File is clean (no matching signatures found).");
                 return result;
             }
             catch (Exception ex)
             {
                 result.Status = ScanStatus.Error;
                 result.ErrorMessage = ex.Message;
-                Logger?.Invoke($"[ERROR] Lỗi khi quét file: {ex.Message}");
+                Logger?.Invoke($"[ERROR] Error scanning file: {ex.Message}");
                 return result;
             }
             finally
@@ -311,7 +310,7 @@ namespace ClamAV_Engine.ClamLib
 
                     Logger?.Invoke($"[HASH] Scanning signature: {sig.Name} - [Index: {sd.IndexOf(sig)}, Target: {sig.Target}]");
 
-                    // Kiểm tra kích thước nếu có
+                    // Check file size if available
                     if (sig.Properties.TryGetValue("FileSize", out var sizeObj) && sizeObj is long sigSize)
                     {
                         if (sigSize != size)
@@ -357,7 +356,7 @@ namespace ClamAV_Engine.ClamLib
                     }
                     catch
                     {
-                        // Nếu pattern quá phức tạp/không hỗ trợ, bỏ qua signature đó
+                        // If the pattern is too complex/unsupported, skip that signature
                     }
                 }
             }
@@ -471,7 +470,7 @@ namespace ClamAV_Engine.ClamLib
                 }
                 catch
                 {
-                    // Nếu biểu thức quá phức tạp/không parse được, bỏ qua signature này
+                    // If the expression is too complex/cannot be parsed, skip this signature
                 }
             }
             return null;
@@ -490,7 +489,8 @@ namespace ClamAV_Engine.ClamLib
 
                 foreach (var sig in dict.Values)
                 {
-                    // Log tên chữ ký đang dò (giãn tần suất nếu cần sau này)
+                    // Log the name of the signature being scanned (adjust frequency if needed later)
+                    Logger?.Invoke($"[LDB] Scanning signature: {sig.Name} - {sig.Target}");
 
                     if (!sig.Properties.TryGetValue("LogicalExpression", out var exprObj))
                         continue;
@@ -542,7 +542,7 @@ namespace ClamAV_Engine.ClamLib
                     }
                     catch
                     {
-                        // Nếu biểu thức quá phức tạp/không parse được, bỏ qua signature này
+                        // If the expression is too complex/cannot be parsed, skip this signature
                     }
                 }
             }
